@@ -46,7 +46,7 @@ publicDir = __dirname + '/../../public'
 
 # The store creates models and syncs data
 liveDbMongo = liveDbMongo(mongoUrl + '?auto_reconnect', safe: true)
-store = derby.createStore
+store = kclient.createStore
   db: liveDbMongo
   redis1: redis1
   redis2: redis2
@@ -98,7 +98,6 @@ expressApp
 
   # Create an express middleware from the app's routes
   .use(app.router())
-  .use(errorMiddleware)
 
   # file uploads
   # enable if needed

@@ -1,5 +1,6 @@
 <import: src="./home">
 <import: src="./about">
+<import: src="../error">
 
 <Title:>
 	Kantele app
@@ -12,36 +13,17 @@
 <Body:>
 	<view name="k-connection-alert"></view>
 	<view name="k-before-unload"></view>
-	<div id="content">
-		<div class="container">
-			<page-header />
-			<div class="container-inner">
-				<view name="{{$render.ns}}"></view>
-			</div>
-			<page-footer />
-		</div>
+	<div class="header">
+	    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+	        <a class="pure-menu-heading" href="/">Your Site</a>
+
+	        <ul class="pure-menu-list">
+	            <li class="pure-menu-item pure-menu-selected"><a href="/" class="pure-menu-link">Home</a></li>
+	            <li class="pure-menu-item"><a href="about" class="pure-menu-link">About</a></li>
+	            <li class="pure-menu-item"><a href="/" class="pure-menu-link">Sign Up</a></li>
+	        </ul>
+	    </div>
 	</div>
 
-<page-footer:>
-	<footer>
-		<div class="pure-g container-inner">
-			<div class="pure-u-1 pure-u-md-1-1">
-				<p>&copy; Us inc.</p>
-			</div>
-		</div>
-	</footer>
-
-<page-header:>
-	<header>
-		<div class="nav-top-wrap">
-			<div class="container-inner">
-				<nav id="nav-top-left">
-					<li class="logo"><a href="/">logo</a></li>
-				</nav>
-			</div>
-		</div>
-		<div id="main-header" class="container-inner">
-			<h1 class="logo"><a href="/">logo</a></h1>
-		</div>
-	</header>
+	<view name="{{$render.ns}}"></view>
 

@@ -88,10 +88,10 @@ function createApplication(app_name, path) {
   }
 
   // JavaScript
-  var indexApp = loadTemplate('coffee/src/app/index.coffee'),
-      indexSrv = loadTemplate('coffee/src/server/index.coffee');
+  var indexApp = loadTemplate(program.lang + '/src/app/index.' + program.lang),
+      indexSrv = loadTemplate(program.lang + '/src/server/index.' + program.lang);
 
-  copydir('coffee', path);
+  copydir(program.lang, path);
 
   // Template support
   indexApp = indexApp.replace('{kantele-app}', app_name);
@@ -102,7 +102,7 @@ function createApplication(app_name, path) {
       name: app_name
     , version: '0.0.0'
     , private: true
-    , scripts: { start: './node_modules/coffee-script/bin/coffee server.coffee' }
+    , scripts: { start: program.lang === 'coffee'? './node_modules/coffee-script/bin/coffee server.coffee' : 'node server.js' }
     , dependencies: {
         "body-parser": "*",
         "coffee-script": "*",
@@ -136,8 +136,8 @@ function createApplication(app_name, path) {
 
   // write files
   write(path + '/package.json', JSON.stringify(pkg, null, 2));
-  write(path + '/src/app/index.coffee', indexApp);
-  write(path + '/src/server/index.coffee', indexSrv);
+  write(path + '/src/app/index.' + program.lang, indexApp);
+  write(path + '/src/server/index.' + program.lang, indexSrv);
 
   if (0 && program.git) {
     write(path + '/.gitignore', fs.readFileSync(__dirname + '/../templates/js/gitignore', 'utf-8'));
