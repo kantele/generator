@@ -1,7 +1,7 @@
 {
   "name": "kantele",
   "description": "Express' application generator",
-  "version": "0.12.0",
+  "version": "0.12.1",
   "author": "TJ Holowaychuk <tj@vision-media.ca>",
   "contributors": [
     "Aaron Heckmann <aaron.heckmann+github@gmail.com>",
@@ -22,7 +22,6 @@
     "app",
     "api"
   ],
-  "repository": "expressjs/generator",
   "license": "MIT",
   "dependencies": {
     "commander": "2.6.0",
