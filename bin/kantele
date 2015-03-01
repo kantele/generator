@@ -72,6 +72,40 @@ function confirm(msg, callback) {
  * @param {String} path
  */
 
+function createComponent(app_name, path) {
+  var wait = 5;
+
+  console.log();
+  function complete() {
+    if (--wait) return;
+    console.log();
+    console.log('   install dependencies:');
+    console.log('     $ cd %s && npm install', path);
+    console.log();
+    console.log('   run the app:');
+    console.log('     $ DEBUG=' + app_name + ':* ./bin/www');
+    console.log();
+  }
+
+  copydir('component', path);
+
+  // package.json
+  var pkg = {
+      name: app_name
+    , version: '0.0.0'
+  }
+
+  // sort dependencies like npm(1)
+  pkg.dependencies = sortedObject(pkg.dependencies);
+
+  // write files
+  write(path + '/package.json', JSON.stringify(pkg, null, 2));
+  write(path + '/src/app/index.' + program.lang, indexApp);
+  write(path + '/src/server/index.' + program.lang, indexSrv);
+
+  complete();
+}
+
 function createApplication(app_name, path) {
   var wait = 5;
 
@@ -174,7 +208,11 @@ function exit(code) {
   // https://github.com/joyent/node/issues/6247 is just one bug example
   // https://github.com/visionmedia/mocha/issues/333 has a good discussion
   function done() {
-    if (!(draining--)) _exit(code);
+    console.log('done', draining);
+    if (!(draining--)) {
+      console.log('_exit');
+      _exit(code);
+    }
   }
 
   var draining = 0;
@@ -214,22 +252,42 @@ function main() {
   program.lang = 'js';
   if (program.coffee) program.lang = 'coffee';
 
-  // Generate application
-  emptyDirectory(destinationPath, function (empty) {
-    if (empty) {
-      createApplication(appName, destinationPath);
-    } else {
-      confirm('destination (' + destinationPath + ') is not empty, continue? [y/N] ', function (ok) {
-        if (ok) {
-          process.stdin.destroy();
-          createApplication(appName, destinationPath);
-        } else {
-          console.error('aborting');
-          exit(1);
-        }
-      });
-    }
-  });
+  if (program.component) {
+    destinationPath = 'node_modules/' + destinationPath;
+    emptyDirectory(destinationPath, function (empty) {
+      if (empty) {
+        createComponent(appName, destinationPath);
+      } else {
+        confirm('destination (' + destinationPath + ') is not empty, continue? [y/N] ', function (ok) {
+          if (ok) {
+            process.stdin.destroy();
+            createComponent(appName, destinationPath);
+          } else {
+            console.error('aborting');
+            exit(1);
+          }
+        });
+      }
+    });
+  }
+  else {
+    // Generate application
+    emptyDirectory(destinationPath, function (empty) {
+      if (empty) {
+        createApplication(appName, destinationPath);
+      } else {
+        confirm('destination (' + destinationPath + ') is not empty, continue? [y/N] ', function (ok) {
+          if (ok) {
+            process.stdin.destroy();
+            createApplication(appName, destinationPath);
+          } else {
+            console.error('aborting');
+            exit(1);
+          }
+        });
+      }
+    });
+  }
 }
 
 /**
@@ -268,8 +326,15 @@ function mkdir(path, fn) {
 
 function copydir(from, to) {
   from = path.join(__dirname, '..', 'templates', from);
+  console.log('wrench.copyDirSyncRecursive', from, to);
+  var err = wrench.copyDirSyncRecursive(from, to);
+
+  if (err) {
+      console.log(err);
+      exit(1);
+  }
+
   console.log('   \x1b[36mcopy\x1b[0m : ' + from + ' to ' + to);
-  wrench.copyDirSyncRecursive(from, to);
 }
 
 // Deep-copy an existing directory
