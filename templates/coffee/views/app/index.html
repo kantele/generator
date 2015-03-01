@@ -1,0 +1,47 @@
+<import: src="./home">
+<import: src="./about">
+
+<Title:>
+	Kantele app
+
+<Head:>
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<link rel="icon" type="image/png" href="/img/favicon.png">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<Body:>
+	<view name="k-connection-alert"></view>
+	<view name="k-before-unload"></view>
+	<div id="content">
+		<div class="container">
+			<page-header />
+			<div class="container-inner">
+				<view name="{{$render.ns}}"></view>
+			</div>
+			<page-footer />
+		</div>
+	</div>
+
+<page-footer:>
+	<footer>
+		<div class="pure-g container-inner">
+			<div class="pure-u-1 pure-u-md-1-1">
+				<p>&copy; Us inc.</p>
+			</div>
+		</div>
+	</footer>
+
+<page-header:>
+	<header>
+		<div class="nav-top-wrap">
+			<div class="container-inner">
+				<nav id="nav-top-left">
+					<li class="logo"><a href="/">logo</a></li>
+				</nav>
+			</div>
+		</div>
+		<div id="main-header" class="container-inner">
+			<h1 class="logo"><a href="/">logo</a></h1>
+		</div>
+	</header>
+
