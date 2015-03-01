@@ -1,4 +1,4 @@
-[![Express Logo](https://i.cloudup.com/zfY6lL7eFa-3000x3000.png)](http://expressjs.com/)
+![image](https://cloud.githubusercontent.com/assets/433707/6429518/3f8be55a-bfe0-11e4-8bb1-995e0255f9b2.png)
 
 [Express'](https://www.npmjs.com/package/express) application generator.
 
