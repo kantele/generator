@@ -1,0 +1,37 @@
+{
+  "name": "kantele-app",
+  "description": "",
+  "version": "0.0.0",
+  "scripts": {
+    "start": "./node_modules/coffee-script/bin/coffee server.coffee"
+  },
+  "dependencies": {
+    "body-parser": "*",
+    "coffee-script": "*",
+    "coffeeify": "*",
+    "compression": "*",
+    "connect-redis": "*",
+    "cookie-parser": "*",
+    "express": "*",
+    "express-session": "*",
+    "k-before-unload": "*",
+    "k-bundle": "*",
+    "k-client": "*",
+    "k-connection-alert": "*",
+    "k-highway": "*",
+    "k-html-util": "*",
+    "k-model": "*",
+    "k-parsing": "*",
+    "k-saddle": "*",
+    "k-serialize-object": "*",
+    "k-stylus": "*",
+    "k-templates": "*",
+    "k-tracks": "*",
+    "livedb-mongo": "*",
+    "nib": "*",
+    "redis": "*"
+  },
+  "engines": {
+    "node": "0.10.x"
+  }
+}
