@@ -27,10 +27,7 @@ before(program, 'outputHelp', function () {
 program
   .version(version)
   .usage('[options] [dir]')
-  .option('-e, --ejs', 'add ejs engine support (defaults to jade)')
-  .option('    --hbs', 'add handlebars engine support')
-  .option('-H, --hogan', 'add hogan.js engine support')
-  .option('-c, --css <engine>', 'add stylesheet <engine> support (less|stylus|compass) (defaults to plain css)')
+  .option('-c, --coffee', 'use coffeescript')
   .option('    --git', 'add .gitignore')
   .option('-f, --force', 'force on non-empty directory')
   .parse(process.argv);

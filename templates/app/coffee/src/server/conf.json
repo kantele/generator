@@ -1,0 +1,80 @@
+{
+  "MONGO_URL": "mongodb://localhost:27017/blanket",
+  "REDIS_DB": 8,
+  "PORT": 3000,
+  "NODE_ENV": "development",
+  "SITE_NAME": "My Site",
+  "SITE_EMAIL": "admin@mysite.com",
+  "site": "http://kansalaiskeskustelu.fi",
+  "domain": "https://kansalaiskeskustelu.fi",
+  "strategies": {
+    "twitter": {
+      "consumerKey": "Wbdf2oOFwTae1aexCsiqQ",
+      "consumerSecret": "zwV3nJuKgPI0C4pfOjmMzDwZmQFfsJQE3AdEEdlRU"
+    },
+    "facebook": {
+      "appId": "116817238490460",
+      "appSecret": "1f79edfe369e0b6ed300d09639a2976a"
+    },
+    "linkedin": {
+      "apiKey": "jruy908juhgw",
+      "apiSecret": "xDpIg3uL9STLQVJW"
+    },
+    "github": {
+      "appId": "b60b740922c066f3b3a5",
+      "appSecret": "028e82f9141b892dedd9f9ec298b20a16f758e4c"
+    }
+  },
+  "d-passport": {
+    "lang": "fi",
+    "messages": {
+      "successFlash": false,
+      "password": "Salasanan pitää olla 8-32 merkkiä.",
+      "fullname": "Koko nimen pitää olla 3-64 merkkiä.",
+      "username": "Käyttäjänimen pitää olla 3-32 merkkiä."
+    },
+    "redirects": {
+      "failureRedirect": "/login",
+      "successRedirect": "/"
+    },
+    "urls": {
+      "login": "/login",
+      "logout": "/logout",
+      "register": "/register",
+      "passwordChange": "/profile/password-change"
+    },
+    "form": {
+      "email": {
+        "required": true,
+        "unique": true
+      },
+      "username": {
+        "required": true,
+        "unique": true,
+        "validation": "^[a-zA-Z0-9_.äöåÄÖÅ]{3,32}$"
+      },
+      "fullname": {
+        "required": true,
+        "validation": "^.{3,64}$"
+      },
+      "password": {
+        "required": true,
+        "unique": true,
+        "validation": "^.{8,32}$"
+      }
+    },    
+    "fields": {
+      "usernameField": "username",
+      "emailField": "email",
+      "passwordField": "password"
+    },
+    "site": {
+      "domain": "https://kansalaiskeskustelu.fi",
+      "name": "Kansalaiskeskustelu.fi",
+      "email": "noreply@kansalaiskeskustelu.fi"
+    },
+    "smtp": {
+      "host": "smtp.kolumbus.fi"
+    }
+  }
+}
