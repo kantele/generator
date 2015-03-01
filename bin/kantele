@@ -9,15 +9,11 @@ var path = require('path');
 var readline = require('readline');
 var sortedObject = require('sorted-object');
 
-var _exit = process.exit;
 var eol = os.EOL;
 var pkg = require('../package.json');
 
 var version = pkg.version;
 
-// Re-assign process.exit because of commander
-// TODO: Switch to a different command framework
-process.exit = exit
 
 // CLI
 
@@ -33,9 +29,7 @@ program
   .option('    --git', 'add .gitignore')
   .parse(process.argv);
 
-if (!exit.exited) {
-  main();
-}
+main();
 
 /**
  * Install a before function; AOP.
@@ -199,35 +193,6 @@ function emptyDirectory(path, fn) {
   });
 }
 
-/**
- * Graceful exit for async STDIO
- */
-
-function exit(code) {
-  // flush output for Node.js Windows pipe bug
-  // https://github.com/joyent/node/issues/6247 is just one bug example
-  // https://github.com/visionmedia/mocha/issues/333 has a good discussion
-  function done() {
-    console.log('done', draining);
-    if (!(draining--)) {
-      console.log('_exit');
-      _exit(code);
-    }
-  }
-
-  var draining = 0;
-  var streams = [process.stdout, process.stderr];
-
-  exit.exited = true;
-
-  streams.forEach(function(stream){
-    // submit empty write request and wait for completion
-    draining += 1;
-    stream.write('', done);
-  });
-
-  done();
-}
 
 /**
  * Load template file.
@@ -264,7 +229,7 @@ function main() {
             createComponent(appName, destinationPath);
           } else {
             console.error('aborting');
-            exit(1);
+            process.exit(1);
           }
         });
       }
@@ -282,7 +247,7 @@ function main() {
             createApplication(appName, destinationPath);
           } else {
             console.error('aborting');
-            exit(1);
+            process.exit(1);
           }
         });
       }
@@ -331,7 +296,7 @@ function copydir(from, to) {
 
   if (err) {
       console.log(err);
-      exit(1);
+      process.exit(1);
   }
 
   console.log('   \x1b[36mcopy\x1b[0m : ' + from + ' to ' + to);
