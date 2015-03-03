@@ -270,8 +270,8 @@ function exists(path) {
 
 function main(cmd, appName, coffee) {
   // App name
-  var destinationPath = path.resolve(cmd === 'app'? appName: './node_modules/' + appName);
-  appName = path.basename(appName);
+  var destinationPath = path.resolve(cmd === 'app'? appName: './node_modules/' + appName),
+      appBaseName = path.basename(appName);
 
   if (exists(destinationPath)) {
     console.error('The folder ' + destinationPath + ' seems to exist. Not good! Please move the folder away first or choose another name.');
@@ -279,6 +279,11 @@ function main(cmd, appName, coffee) {
   }
 
   if (cmd === 'cmp') {
+    if (appBaseName !== appName) {
+      console.error('Component names can point to a specific folder - they can\'t have slashes in the name for example.');
+      process.exit(1);
+    }
+
     if (!exists('./node_modules')) {
       console.error('./node_modules does not exist! This should be run in the app\'s topmost (main) folder which contains server.js/server.coffee and ./node_modules');
       process.exit(1);
@@ -287,6 +292,6 @@ function main(cmd, appName, coffee) {
     createComponent(appName, destinationPath);
   }
   else {
-    createApplication(appName, destinationPath, coffee? 'coffee': 'js');
+    createApplication(appBaseName, destinationPath, coffee? 'coffee': 'js');
   }
 }
