@@ -30,8 +30,7 @@ Install dependencies:
 $ cd /tmp/foo && npm install
 ```
 
-
-Create a component:
+Create a component (when inside the app's main folder):
 
 ```bash
 $ kantele cmp my-component
