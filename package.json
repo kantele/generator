@@ -1,9 +1,10 @@
 {
   "name": "kantele",
   "description": "Express' application generator",
-  "version": "0.12.1",
+  "version": "0.12.3",
   "author": "Ilkka Huotari <ilkkah@gmail.com>",
   "contributors": [
+    "Aaron Heckmann <aaron.heckmann+github@gmail.com>",
     "Aaron Heckmann <aaron.heckmann+github@gmail.com>",
     "Ciaran Jessup <ciaranj@gmail.com>",
     "Douglas Christopher Wilson <doug@somethingdoug.com>",
