@@ -79,7 +79,7 @@ function confirm(msg, callback) {
   });
 }
 
-function complete() {
+function complete(path) {
   console.log();
   console.log('   install dependencies:');
   console.log('     $ cd %s && npm install', path);
@@ -161,7 +161,7 @@ function createApplication(app_name, path, lang) {
   write(path + '/src/server/index.' + lang, indexSrv);
   write(path + '/.gitignore', fs.readFileSync(__dirname + '/../templates/gitignore', 'utf-8'));
 
-  complete();
+  complete(path);
 }
 
 function copy_template(from, to) {
@@ -271,6 +271,7 @@ function exists(path) {
 function main(cmd, appName, coffee) {
   // App name
   var destinationPath = path.resolve(cmd === 'app'? appName: './node_modules/' + appName);
+  appName = path.basename(appName);
 
   if (exists(destinationPath)) {
     console.error('The folder ' + destinationPath + ' seems to exist. Not good! Please move the folder away first or choose another name.');
