@@ -1,4 +1,5 @@
-![image](https://cloud.githubusercontent.com/assets/433707/6429518/3f8be55a-bfe0-11e4-8bb1-995e0255f9b2.png)
+![image](https://cloud.githubusercontent.com/assets/433707/6455877/d6582376-c162-11e4-992a-68129b0fc96a.png)
+
 
 Kantele application generator.
 
