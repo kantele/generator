@@ -29,6 +29,15 @@ Install dependencies:
 ```bash
 $ cd /tmp/foo && npm install
 ```
+
+
+Create a component:
+
+```bash
+$ kantele cmp my-component
+
+```
+
 ## License
 
 [MIT](LICENSE)
