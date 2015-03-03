@@ -12,36 +12,55 @@ var sortedObject = require('sorted-object');
 var eol = os.EOL;
 var pkg = require('../package.json');
 
-var version = pkg.version;
+var version = pkg.version,
+    run = false;
 
 
 // CLI
 
-before(program, 'outputHelp', function () {
-  this.allowUnknownOption();
-});
+// before(program, 'outputHelp', function () {
+//   this.allowUnknownOption();
+// });
+
+// program
+//   .version(version)
+//   .usage('<command> [options] [name]')
+//   .command('app [name]', 'create a new app')
+//   .command('cmp [name]', 'create a new component')
+//   .option('-c, --coffee', 'use coffeescript')
+//   .action(function(cmd, options) {
+//     console.log('exec "%s" using %s mode', cmd, options.exec_mode);
+//   })
+//   .parse(process.argv);
 
 program
-  .version(version)
-  .usage('[options] [dir]')
+  .usage('<command> [options] [name]')
+  .command('app <name>')
   .option('-c, --coffee', 'use coffeescript')
-  .option('-k, --component', 'create a component instead of an app')
-  .option('    --git', 'add .gitignore')
-  .parse(process.argv);
+  .description('create a new app')
+  .action(function(name, options) {
+    run = true;
+    main('app', name, options && options.parent && options.parent.coffee);
+  });
 
-main();
+program
+  .usage('<command> [options] <name>')
+  .command('component <name>')
+  .alias('cmp')
+  .option('-c, --coffee', 'use coffeescript')
+  .description('create a new component')
+  .action(function(name, options) {
+    run = true;
+    main('cmp', name, options && options.parent && options.parent.coffee);
+  });
 
-/**
- * Install a before function; AOP.
- */
+program
+  .option('-c, --coffee', 'use coffeescript');
 
-function before(obj, method, fn) {
-  var old = obj[method];
+program.parse(process.argv);
 
-  obj[method] = function () {
-    fn.call(this);
-    old.apply(this, arguments);
-  };
+if (!run) {
+  program.help();
 }
 
 /**
@@ -60,6 +79,12 @@ function confirm(msg, callback) {
   });
 }
 
+function complete() {
+  console.log();
+  console.log('   install dependencies:');
+  console.log('     $ cd %s && npm install', path);
+}
+
 /**
  * Create application at the given directory `path`.
  *
@@ -67,59 +92,27 @@ function confirm(msg, callback) {
  */
 
 function createComponent(app_name, path) {
-  var wait = 5;
-
   console.log();
-  function complete() {
-    if (--wait) return;
-    console.log();
-    console.log('   install dependencies:');
-    console.log('     $ cd %s && npm install', path);
-    console.log();
-    console.log('   run the app:');
-    console.log('     $ DEBUG=' + app_name + ':* ./bin/www');
-    console.log();
-  }
-
   copydir('component', path);
 
-  // package.json
-  var pkg = {
-      name: app_name
-    , version: '0.0.0'
+  var files = [ 'index.js', 'index.coffee', 'index.html', 'index.styl', 'package.json', 'README.md' ];
+
+  for (var i = 0; i < files.length; i++) {
+    var file = files[i],
+        f = loadFile(path + '/' + file).replace(new RegExp('{k-component}', 'g'), app_name);
+
+    write(path + '/' + file, f);
   }
-
-  // sort dependencies like npm(1)
-  pkg.dependencies = sortedObject(pkg.dependencies);
-
-  // write files
-  write(path + '/package.json', JSON.stringify(pkg, null, 2));
-  write(path + '/src/app/index.' + program.lang, indexApp);
-  write(path + '/src/server/index.' + program.lang, indexSrv);
-
-  complete();
 }
 
-function createApplication(app_name, path) {
-  var wait = 5;
-
+function createApplication(app_name, path, lang) {
   console.log();
-  function complete() {
-    if (--wait) return;
-    console.log();
-    console.log('   install dependencies:');
-    console.log('     $ cd %s && npm install', path);
-    console.log();
-    console.log('   run the app:');
-    console.log('     $ DEBUG=' + app_name + ':* ./bin/www');
-    console.log();
-  }
 
   // JavaScript
-  var indexApp = loadTemplate(program.lang + '/src/app/index.' + program.lang),
-      indexSrv = loadTemplate(program.lang + '/src/server/index.' + program.lang);
+  var indexApp = loadTemplate(lang + '/src/app/index.' + lang),
+      indexSrv = loadTemplate(lang + '/src/server/index.' + lang);
 
-  copydir(program.lang, path);
+  copydir(lang, path);
 
   // Template support
   indexApp = indexApp.replace('{kantele-app}', app_name);
@@ -130,7 +123,7 @@ function createApplication(app_name, path) {
       name: app_name
     , version: '0.0.0'
     , private: true
-    , scripts: { start: program.lang === 'coffee'? './node_modules/coffee-script/bin/coffee server.coffee' : 'node server.js' }
+    , scripts: { start: lang === 'coffee'? './node_modules/coffee-script/bin/coffee server.coffee' : 'node server.js' }
     , dependencies: {
         "body-parser": "*",
         "coffee-script": "*",
@@ -164,12 +157,9 @@ function createApplication(app_name, path) {
 
   // write files
   write(path + '/package.json', JSON.stringify(pkg, null, 2));
-  write(path + '/src/app/index.' + program.lang, indexApp);
-  write(path + '/src/server/index.' + program.lang, indexSrv);
-
-  if (0 && program.git) {
-    write(path + '/.gitignore', fs.readFileSync(__dirname + '/../templates/js/gitignore', 'utf-8'));
-  }
+  write(path + '/src/app/index.' + lang, indexApp);
+  write(path + '/src/server/index.' + lang, indexSrv);
+  write(path + '/.gitignore', fs.readFileSync(__dirname + '/../templates/gitignore', 'utf-8'));
 
   complete();
 }
@@ -203,57 +193,13 @@ function loadTemplate(name) {
 }
 
 /**
- * Main program.
+ * Load a  file.
  */
 
-function main() {
-  // Path
-  var destinationPath = program.args.shift() || '.';
-
-  // App name
-  var appName = path.basename(path.resolve(destinationPath));
-
-  // Template engine
-  program.lang = 'js';
-  if (program.coffee) program.lang = 'coffee';
-
-  if (program.component) {
-    destinationPath = 'node_modules/' + destinationPath;
-    emptyDirectory(destinationPath, function (empty) {
-      if (empty) {
-        createComponent(appName, destinationPath);
-      } else {
-        confirm('destination (' + destinationPath + ') is not empty, continue? [y/N] ', function (ok) {
-          if (ok) {
-            process.stdin.destroy();
-            createComponent(appName, destinationPath);
-          } else {
-            console.error('aborting');
-            process.exit(1);
-          }
-        });
-      }
-    });
-  }
-  else {
-    // Generate application
-    emptyDirectory(destinationPath, function (empty) {
-      if (empty) {
-        createApplication(appName, destinationPath);
-      } else {
-        confirm('destination (' + destinationPath + ') is not empty, continue? [y/N] ', function (ok) {
-          if (ok) {
-            process.stdin.destroy();
-            createApplication(appName, destinationPath);
-          } else {
-            console.error('aborting');
-            process.exit(1);
-          }
-        });
-      }
-    });
-  }
+function loadFile(file) {
+  return fs.readFileSync(file, 'utf-8');
 }
+
 
 /**
  * echo str > path.
@@ -291,7 +237,6 @@ function mkdir(path, fn) {
 
 function copydir(from, to) {
   from = path.join(__dirname, '..', 'templates', from);
-  console.log('wrench.copyDirSyncRecursive', from, to);
   var err = wrench.copyDirSyncRecursive(from, to);
 
   if (err) {
@@ -302,4 +247,45 @@ function copydir(from, to) {
   console.log('   \x1b[36mcopy\x1b[0m : ' + from + ' to ' + to);
 }
 
-// Deep-copy an existing directory
+/**
+ *
+ * @param {String} path
+ */
+
+function exists(path) {
+  try {
+    var ok = !!fs.statSync(path);
+  }
+  catch (err) {
+    return false;
+  }
+
+  return true;
+}
+
+
+/**
+ * Main program.
+ */
+
+function main(cmd, appName, coffee) {
+  // App name
+  var destinationPath = path.resolve(cmd === 'app'? appName: './node_modules/' + appName);
+
+  if (exists(destinationPath)) {
+    console.error('The folder ' + destinationPath + ' seems to exist. Not good! Please move the folder away first or choose another name.');
+    process.exit(1);
+  }
+
+  if (cmd === 'cmp') {
+    if (!exists('./node_modules')) {
+      console.error('./node_modules does not exist! This should be run in the app\'s topmost (main) folder which contains server.js/server.coffee and ./node_modules');
+      process.exit(1);
+    }
+
+    createComponent(appName, destinationPath);
+  }
+  else {
+    createApplication(appName, destinationPath, coffee? 'coffee': 'js');
+  }
+}

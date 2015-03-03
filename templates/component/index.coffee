@@ -1,7 +1,7 @@
 
 module.exports = class MyComponent
 	view: __dirname
-	name: 'k-component'
+	name: '{k-component}'
 
 	init: ->
 

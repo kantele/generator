@@ -1,2 +1,2 @@
-k-component
+{k-component}
 ========
