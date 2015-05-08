@@ -2,18 +2,20 @@ getMethod = (opData, op) ->
   if opData.create then return 'create'
   if opData.del then return 'del'
   if op?
-    if op.od? and op.oi then return 'change'
-    if op.oi? then return 'set'
-    if op.od? then return 'del'
+    if op.od != undefined and op.oi then return 'change'
+    if op.oi != undefined then return 'set'
+    if op.od != undefined then return 'del'
     if op.oi is null then return 'del'
-    if op.li? and op.ld then return 'change'
-    if op.li? then return 'insert'
-    if op.ld? then return 'remove'
-    if op.si? then return 'string-ins'
-    if op.sd? then return 'string-del'
-    if op.na? then return 'increment'
-  console.log 'could not find method', opData, op
- 
+    if op.li != undefined and op.ld then return 'change'
+    if op.li != undefined then return 'insert'
+    if op.ld != undefined then return 'remove'
+    if op.si != undefined then return 'string-ins'
+    if op.sd != undefined then return 'string-del'
+    if op.na != undefined then return 'increment'
+  console.log 'could not find method'
+  console.log 'opData', opData
+  console.log 'op', op
+
 module.exports = (shareClient) ->
   # Hold on to session object for later use. The HTTP req object is only
   # available in the connect event

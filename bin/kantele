@@ -103,6 +103,8 @@ function createComponent(app_name, path) {
 
     write(path + '/' + file, f);
   }
+
+  write(path + '/.gitignore', fs.readFileSync(__dirname + '/../templates/gitignore', 'utf-8'));
 }
 
 function createApplication(app_name, path, lang) {
