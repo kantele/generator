@@ -18,7 +18,7 @@ $ kantele app /tmp/foo
 
 ```
 
-Create an app in coffeescript:
+Create an app in *coffeescript*:
 
 ```bash
 $ kantele app -c /tmp/foo
