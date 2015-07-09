@@ -11,7 +11,7 @@ $ npm install -g kantele
 
 ## Quick Start
 
-Create an app:
+Create an app named `foo` into directory `/tmp/foo`:
 
 ```bash
 $ kantele app /tmp/foo
