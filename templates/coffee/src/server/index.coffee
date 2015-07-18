@@ -96,12 +96,11 @@ expressApp
   # Parse form data
   .use(bodyParser.urlencoded( extended: true ))
 
+  # file uploads, enable if needed
+  # .use(multer({ inMemory: true }))
+
   # Create an express middleware from the app's routes
   .use(app.router())
-
-  # file uploads
-  # enable if needed
-  # .use(multer({ inMemory: true }))
 
 # access control
 require('./access')(store.shareClient)
