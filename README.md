@@ -40,3 +40,5 @@ $ kantele cmp my-component
 ## License
 
 [MIT](LICENSE)
+
+Favicon credits: (https://www.iconfinder.com/icons/353486/apple_audio_itunes_itunes_logo_itunes_store_music_music_note_icon)[https://www.iconfinder.com/icons/353486/apple_audio_itunes_itunes_logo_itunes_store_music_music_note_icon]
