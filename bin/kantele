@@ -148,7 +148,7 @@ function createApplication(app_name, path, lang) {
         "k-stylus": "*",
         "k-templates": "*",
         "k-tracks": "*",
-        "livedb-mongo": "*",
+        "k-livedb-mongo": "latest",
         "nib": "*",
         "redis": "*"          
     }
