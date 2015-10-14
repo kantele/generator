@@ -1,7 +1,7 @@
 {
   "name": "kantele",
   "description": "Kantele application generator",
-  "version": "5.0.0",
+  "version": "1.0.0",
   "author": "Ilkka Huotari <ilkkah@gmail.com>",
   "contributors": [
     "Aaron Heckmann <aaron.heckmann+github@gmail.com>",
