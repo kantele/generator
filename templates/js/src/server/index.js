@@ -5,7 +5,7 @@ kclient = require('k-client');
 kclient.use(require('k-bundle'));
 kmodel = require('k-model');
 racerhighway = require('k-highway');
-liveDbMongo = require('livedb-mongo');
+liveDbMongo = require('k-livedb-mongo');
 coffeeify = require('coffeeify');
 app = require('../app/index');
 routes = require('./routes');

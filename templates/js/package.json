@@ -27,7 +27,7 @@
     "k-stylus": "*",
     "k-templates": "*",
     "k-tracks": "*",
-    "livedb-mongo": "*",
+    "k-livedb-mongo": "latest",
     "nib": "*",
     "redis": "*"
   },
