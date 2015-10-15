@@ -1,5 +1,5 @@
 <import: src="./home">
-<import: src="./about">
+<import: src="./edit">
 <import: src="../error">
 
 <Title:>
@@ -14,16 +14,19 @@
 	<view name="k-connection-alert"></view>
 	<view name="k-before-unload"></view>
 	<div class="header">
-	    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-	        <a class="pure-menu-heading" href="/">Your Site</a>
+	    <div class="content-center home-menu pure-menu pure-menu-horizontal">
 
 	        <ul class="pure-menu-list">
-	            <li class="pure-menu-item pure-menu-selected"><a href="/" class="pure-menu-link">Home</a></li>
-	            <li class="pure-menu-item"><a href="about" class="pure-menu-link">About</a></li>
-	            <li class="pure-menu-item"><a href="/" class="pure-menu-link">Sign Up</a></li>
+	        	<li class="pure-menu-item"><a href="/" class="pure-menu-link"><i class="fa fa-home"></i> HOME</a></li>
+	            <li class="pure-menu-item"><a href="/edit" class="pure-menu-link">Add a new item</a></li>
 	        </ul>
 	    </div>
 	</div>
 
-	<view name="{{$render.ns}}"></view>
+    <div class="content-center">
+		<view name="{{$render.ns}}"></view>
+	</div>
 
+    <footer class="content-center">
+        &copy; My Awesome Site
+    </footer>

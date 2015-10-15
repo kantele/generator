@@ -1,7 +1,7 @@
 {
-  "name": "kantele-app",
-  "description": "",
+  "name": "k-ads-admin",
   "version": "0.0.0",
+  "private": true,
   "scripts": {
     "start": "./node_modules/coffee-script/bin/coffee server.coffee"
   },
@@ -20,6 +20,7 @@
     "k-connection-alert": "*",
     "k-highway": "*",
     "k-html-util": "*",
+    "k-livedb-mongo": "latest",
     "k-model": "latest",
     "k-parsing": "*",
     "k-saddle": "*",
@@ -27,11 +28,7 @@
     "k-stylus": "*",
     "k-templates": "*",
     "k-tracks": "*",
-    "k-livedb-mongo": "latest",
     "nib": "*",
     "redis": "*"
-  },
-  "engines": {
-    "node": "0.10.x"
   }
 }

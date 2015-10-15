@@ -41,7 +41,7 @@ redis1.select 0
 redis2.select 0
 
 # Get Mongo configuration 
-mongoUrl = process.env.MONGO_URL || process.env.MONGOHQ_URL || 'mongodb://localhost:27017/{kantele-app}'
+mongoUrl = process.env.MONGO_URL || process.env.MONGOHQ_URL || 'mongodb://localhost:27017/k-ads-admin'
 publicDir = __dirname + '/../../public'
 
 # The store creates models and syncs data
@@ -103,7 +103,8 @@ expressApp
   .use(app.router())
 
 # access control
-require('./access')(store.shareClient)
+# enable when needed
+# require('./access')(store.shareClient)
 
 # server-side routes
 routes expressApp
