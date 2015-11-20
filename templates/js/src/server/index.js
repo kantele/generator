@@ -59,7 +59,7 @@ redis1.select(0);
 
 redis2.select(0);
 
-mongoUrl = process.env.MONGO_URL || process.env.MONGOHQ_URL || 'mongodb://localhost:27017/k-ads-admin';
+mongoUrl = process.env.MONGO_URL || process.env.MONGOHQ_URL || 'mongodb://localhost:27017/kantele-app';
 
 publicDir = __dirname + '/../../public';
 
@@ -85,7 +85,7 @@ store.shareClient.backend.addProjection "auths_public", "auths", 'json0',
  */
 
 session = expressSession({
-  secret: process.env.SESSION_SECRET || 'no-one-is-going-to-crack-this-except-nsa',
+  secret: process.env.SESSION_SECRET || 'session-secret-that-you-should-change',
   store: new RedisStore({
     host: process.env.REDIS_HOST || 'localhost',
     port: process.env.REDIS_PORT || 6379
